@@ -9,3 +9,35 @@
  * @property {Date} created_at
  * @property {Date} updated_at
  */
+
+/**
+ * @typedef {Object} KanbanBoard
+ * @property {number} id
+ * @property {number} profile_id
+ * @property {string} title
+ * @property {string} description
+ * @property {Date} created_at
+ * @property {Date} updated_at
+ */
+
+/**
+ * @typedef {Object} KanbanColumn
+ * @property {number} id
+ * @property {number} board_id
+ * @property {string} title
+ * @property {string} description
+ * @property {number} position
+ * @property {Date} created_at
+ * @property {Date} updated_at
+ */
+
+/**
+ * @typedef {Object} KanbanCard
+ * @property {number} id
+ * @property {number} column_id
+ * @property {string} title
+ * @property {string} description
+ * @property {number} position
+ * @property {Date} created_at
+ * @property {Date} updated_at
+ */
