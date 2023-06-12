@@ -39,13 +39,13 @@ function globalErrorHandler(err, req, res, next) {
     });
 }
 
-function authMiddleware(req, res, next) {
+async function authMiddleware(req, res, next) {
     const accessToken = req.cookies?.accessToken;
 
     let profile = null;
     try {
         const decodedAccessToken = ProfileService.verifyAccessToken(accessToken);
-        profile = ProfileService.getProfileById(decodedAccessToken.id);
+        profile = await ProfileService.GetProfileById(decodedAccessToken.id);
     } catch (err) {
         console.log(err);
 

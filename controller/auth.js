@@ -11,7 +11,7 @@ const {
 
 router.post("/register", inputValidation(createProfile), async (req, res) => {
     try {
-        const createdProfile = await ProfileService.createProfile(req.body);
+        const createdProfile = await ProfileService.CreateProfile(req.body);
         return res.json(getCreateProfileResponse(createdProfile));
     } catch (error) {
         return res.status(error.statusCode).json({
@@ -23,7 +23,7 @@ router.post("/register", inputValidation(createProfile), async (req, res) => {
 
 router.post("/login", inputValidation(loginRequest), async (req, res) => {
     try {
-        const cookieTokens = await ProfileService.loginUser(req.body);
+        const cookieTokens = await ProfileService.LoginUser(req.body);
         for (const token of cookieTokens) {
             res.cookie(token.name, token.token, {
                 maxAge: token.expiresIn * 1000,
@@ -46,7 +46,7 @@ router.post("/login", inputValidation(loginRequest), async (req, res) => {
 
 router.get("/refresh", authMiddleware, async (req, res) => {
     try {
-        const accessToken = await ProfileService.refreshAccessToken(
+        const accessToken = await ProfileService.RefreshAccessToken(
             req.userDetails.id,
         );
         res.cookie(accessToken.name, accessToken.token, {

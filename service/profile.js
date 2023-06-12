@@ -56,7 +56,7 @@ const verifyRefreshToken = (token) => jwt.verify(token, config.REFRESH_TOKEN_SEC
  * @param {(number | string)} userId
  * @returns {Profile}
  */
-function getProfileById(userId) {
+function GetProfileById(userId) {
     return ProfileModel().where({ id: userId }).first();
 }
 
@@ -89,7 +89,7 @@ function getProfileByEmailAndUsername(email, userName) {
  * @param {CreateProfile} profileDetails
  * @returns {Profile}
  */
-async function createProfile(profileDetails) {
+async function CreateProfile(profileDetails) {
     let existingUser = null;
     try {
         existingUser = await getProfileByEmailAndUsername(
@@ -136,7 +136,7 @@ async function createProfile(profileDetails) {
  * @param {LoginUser} profileDetails
  * @returns {Array<Token>} Return[0] is the access token, Return[1] is the refresh token
  */
-async function loginUser(profileDetails) {
+async function LoginUser(profileDetails) {
     let userProfile = null;
     try {
         userProfile = await getProfileByUsername(profileDetails.username);
@@ -173,11 +173,11 @@ async function loginUser(profileDetails) {
  * @returns {Token} Return[0] is the access token, Return[1] is the refresh token ??
  * */
 
-async function refreshAccessToken(profileId) {
+async function RefreshAccessToken(profileId) {
     let userProfile = null;
 
     try {
-        userProfile = await getProfileById(profileId);
+        userProfile = await GetProfileById(profileId);
     } catch (error) {
         console.log("Failed to get profile by id from db", error);
         throw new HTTP500Error("Failed to refresh user access token");
@@ -185,16 +185,20 @@ async function refreshAccessToken(profileId) {
     if (!userProfile) {
         throw new HTTP401Error("Unauthorized");
     }
-
-    return createAccessTokenjwt(userProfile.id, userProfile.username);
+    return {
+        name: "accessToken",
+        token: createAccessTokenJwt(userProfile.id, userProfile.username),
+        path: config.BASE,
+        expiresIn: ACCESS_TOKEN_EXPIRY,
+    };
 
 }
 
 module.exports = {
-    getProfileById,
-    createProfile,
-    loginUser,
-    refreshAccessToken,
+    GetProfileById,
+    CreateProfile,
+    LoginUser,
+    RefreshAccessToken,
     verifyAcessToken,
     verifyRefreshToken,
 };
