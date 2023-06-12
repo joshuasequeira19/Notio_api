@@ -16,7 +16,7 @@ app.use(`${config.BASE}${healthController.mountUri}`, healthController.router);
 app.use(cookieParser());
 app.use(`${config.BASE}${authController.mountUri}`, authController.router);
 
-app.use(middleware.globalErrorHandler);
+app.use(middleware.GlobalErrorHandler);
 
 app.listen(config.PORT, () => {
     console.log(`Server started on port ${config.PORT}`);

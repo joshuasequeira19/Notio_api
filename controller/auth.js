@@ -2,14 +2,14 @@ const router = require("express").Router();
 const mountUri = "/auth";
 
 const ProfileService = require("../service/profile");
-const { inputValidation, authMiddleware } = require("../middleware");
+const { InputValidation, AuthMiddleware } = require("../middleware");
 const {
     createProfile,
     getCreateProfileResponse,
     loginRequest,
 } = require("../schema/profile");
 
-router.post("/register", inputValidation(createProfile), async (req, res) => {
+router.post("/register", InputValidation(createProfile), async (req, res) => {
     try {
         const createdProfile = await ProfileService.CreateProfile(req.body);
         return res.json(getCreateProfileResponse(createdProfile));
@@ -21,7 +21,7 @@ router.post("/register", inputValidation(createProfile), async (req, res) => {
     }
 });
 
-router.post("/login", inputValidation(loginRequest), async (req, res) => {
+router.post("/login", InputValidation(loginRequest), async (req, res) => {
     try {
         const cookieTokens = await ProfileService.LoginUser(req.body);
         for (const token of cookieTokens) {
@@ -44,7 +44,7 @@ router.post("/login", inputValidation(loginRequest), async (req, res) => {
     }
 });
 
-router.get("/refresh", authMiddleware, async (req, res) => {
+router.get("/refresh", AuthMiddleware, async (req, res) => {
     try {
         const accessToken = await ProfileService.RefreshAccessToken(
             req.userDetails.id,
