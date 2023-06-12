@@ -1,4 +1,6 @@
--- schema for postgresql database
+-- schema for postgresql database\
+
+CREATE DATABASE notio;
 
 CREATE TABLE IF NOT EXISTS profile (
     id SERIAL PRIMARY KEY,
